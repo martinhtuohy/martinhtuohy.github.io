@@ -1,0 +1,118 @@
+---
+title: "Martin Tuohy - quarto exercise 5"
+format: 
+  html:
+    output-file: "index.html"
+---
+
+```{r}
+#| echo: true
+#| warning: false
+library(dplyr)
+library(tidyr)
+library(reactable)
+```
+
+1. Read in the CSV of Times Higher Education World University Ranking.
+
+```{r}
+df <- read.csv("http://manctsui.github.io/datasets/timesData.csv")
+reactable(df, defaultPageSize = 4, searchable = TRUE)
+```
+
+2. Determine the rankings through the years of the undergraduate alma mater of the instructor for this course. 
+
+```{r}
+#| code-fold: true
+#| warning: false
+problem2 <- df |> 
+  filter(grepl("University of California, Los Angeles", university_name))
+
+reactable(problem2)
+```
+
+3. Plot the instructor’s undergraduate alma mater as year vs university rank
+
+4. Repeat Problem 3 for UC Berkeley
+
+::: {#fig-university-rank}
+```{r}
+#| code-fold: true
+#| warning: false
+x = problem2$year
+y = problem2$world_rank
+
+plot(x,y,
+    main = "UCLA World Rank vs. Year",
+    xlab = "Years", 
+    ylab = "World Rank", 
+    type="l" 
+     )
+
+problem4 <- df |> 
+  filter(grepl("University of California, Berkeley", university_name))
+
+x = problem4$year
+y = problem4$world_rank
+
+plot(x,y,
+    main = "UC Berkeley World Rank vs. Year",
+    xlab = "Years", 
+    ylab = "World Rank", 
+    type="l" 
+     )
+```
+:::
+
+5. Did the number of US universities that rank in the top 50 change much through the years?
+
+:::{#fig-top-50-universities}
+```{r}
+#| code-fold: true
+#| warning: false
+
+df$world_rank <- as.numeric(as.character(df$world_rank))
+
+problem5_1 <- df |>
+  filter(world_rank <= 50 & year == 2011) |>
+  arrange(world_rank) |>
+  select("world_rank","university_name","year") 
+
+reactable(problem5_1)
+
+problem5_2 <- df |>
+  filter(world_rank <= 50 & year == 2012) |>
+  arrange(world_rank) |>
+  select("world_rank","university_name","year") 
+
+reactable(problem5_2)
+
+problem5_3 <- df |>
+  filter(world_rank <= 50 & year == 2013) |>
+  arrange(world_rank) |>
+  select("world_rank","university_name","year") 
+
+reactable(problem5_3)
+
+problem5_4 <- df |>
+  filter(world_rank <= 50 & year == 2014) |>
+  arrange(world_rank) |>
+  select("world_rank","university_name","year") 
+
+reactable(problem5_4)
+
+problem5_5 <- df |>
+  filter(world_rank <= 50 & year == 2015) |>
+  arrange(world_rank) |>
+  select("world_rank","university_name","year") 
+
+reactable(problem5_5)
+
+problem5_6 <- df |>
+  filter(world_rank <= 50 & year == 2016) |>
+  arrange(world_rank) |>
+  select("world_rank","university_name","year") 
+
+reactable(problem5_6)
+```
+:::
